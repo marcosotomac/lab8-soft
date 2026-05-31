@@ -11,3 +11,4 @@ coverage.xml
 rewards.db
 rewards_smoke.db
 openspec/
+.atl/
