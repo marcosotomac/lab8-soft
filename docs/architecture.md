@@ -65,4 +65,4 @@ infrastructure/    SQLAlchemy y RabbitMQ implementan puertos
 - Comando de pruebas: `python -m pytest`
 - Comando de cobertura: `coverage run -m pytest && coverage xml -o coverage.xml`
 - Comando Sonar: `sonar-scanner`
-- Cobertura verificada durante implementación: 92%.
+- Cobertura verificada: 100%
