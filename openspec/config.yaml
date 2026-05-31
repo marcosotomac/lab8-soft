@@ -1,0 +1,87 @@
+schema: spec-driven
+project: lab8-soft
+persistence:
+  mode: openspec
+  backend: files
+  artifact_root: openspec
+
+context: |
+  Project type: course assignment for an event-driven restaurant rewards system.
+  Detected implementation stack: not yet implemented; repository currently contains assignment docs and Sonar configuration only.
+  Target architecture from requirements: event-driven rewards flow using a broker such as RabbitMQ, Kafka, or ActiveMQ; README recommends Hexagonal, Clean, Microservices, or EDA.
+  Quality target: automated tests and static analysis, with README requiring 85% coverage evidence.
+  Current tooling: SonarQube/SonarCloud properties for Python coverage reports; no package manager, app source, test runner, linter, formatter, type checker, or CI config detected.
+
+strict_tdd: false
+
+testing:
+  detected_at: "2026-05-30"
+  strict_tdd: false
+  strict_tdd_reason: "No executable test runner or project language configuration was detected; enable strict TDD after adding a runnable test command."
+  test_runner:
+    available: false
+    framework: null
+    command: null
+  layers:
+    unit:
+      available: false
+      tool: null
+    integration:
+      available: false
+      tool: null
+    e2e:
+      available: false
+      tool: null
+  coverage:
+    available: true
+    tool: Sonar Python coverage import
+    command: "coverage xml"
+    report_path: coverage.xml
+    target_percent: 85
+    note: "Sonar expects coverage.xml, but no test runner or coverage dependency is configured yet."
+  quality:
+    static_analysis:
+      available: true
+      tool: SonarQube/SonarCloud
+      config: sonar-project.properties
+    linter:
+      available: false
+      command: null
+    type_checker:
+      available: false
+      command: null
+    formatter:
+      available: false
+      command: null
+  commands:
+    test: null
+    coverage: "coverage xml"
+    lint: null
+    typecheck: null
+    format: null
+
+rules:
+  proposal:
+    - Include the selected implementation stack and message broker before implementation work starts.
+    - Include rollback or fallback notes for broker-dependent behavior.
+  specs:
+    - Use RFC 2119 keywords for requirements.
+    - Use Given/When/Then scenarios for externally visible behavior.
+    - Capture event payload contracts for producer and consumer flows.
+  design:
+    - Document the chosen architecture pattern and why it satisfies cohesion and coupling constraints.
+    - Include message flow, broker topology, and failure handling for reward processing.
+  tasks:
+    - Keep tasks small enough for one focused coding session.
+    - Pair implementation tasks with the tests or quality checks that prove them.
+  apply:
+    constraints:
+      - Follow existing project conventions when source code exists; if none exist, establish them explicitly in design first.
+    tdd: false
+    test_command: ""
+  verify:
+    test_command: ""
+    build_command: ""
+    coverage_threshold: 85
+  archive:
+    - Preserve archived changes as an audit trail.
