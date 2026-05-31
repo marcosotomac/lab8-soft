@@ -97,3 +97,63 @@ Además, el diagrama muestra:
 - **Mensaje que incluye la información del usuario y la Cena**.
 
 **Figure 1:** Proceso del programa de recompensas.
+
+## Implementación Python — Rewards
+
+Servicio de recompensas con arquitectura Clean/Hexagonal: dominio y casos de uso aislados,
+adaptadores para FastAPI, SQLAlchemy y RabbitMQ, y pruebas automatizadas con cobertura para Sonar.
+
+Documento de arquitectura y casos de uso: [`docs/architecture.md`](docs/architecture.md).
+
+### Instalación local
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -e ".[dev]"
+```
+
+### Ejecutar API
+
+```bash
+DATABASE_URL="sqlite+pysqlite:///./rewards.db" \
+REWARD_EVENT_PUBLISHER="rabbitmq" \
+RABBITMQ_URL="amqp://..." \
+uvicorn rewards.interfaces.api.main:create_app --factory --reload
+```
+
+La API expone `POST /reward-actions` para registrar acciones de recompensa. En tests y desarrollo
+sin broker puede usarse `REWARD_EVENT_PUBLISHER="memory"`; en runtime real usá `rabbitmq`. No guardes
+credenciales del broker en el repositorio.
+
+### Ejecutar worker RabbitMQ
+
+```bash
+DATABASE_URL="sqlite+pysqlite:///./rewards.db" \
+RABBITMQ_URL="amqp://..." \
+python -m rewards.interfaces.worker.main
+```
+
+El worker consume eventos `reward.action.registered` desde el exchange `rewards.events` y la cola
+`rewards.processing`. Cambiá esos nombres con `RABBITMQ_EXCHANGE` y `RABBITMQ_REWARD_QUEUE` si tu
+broker local usa otra topología.
+
+### Pruebas y cobertura
+
+```bash
+python -m pytest
+coverage run -m pytest && coverage xml -o coverage.xml
+```
+
+`coverage.xml` queda en la raíz del repositorio y coincide con la ruta esperada por Sonar para
+cobertura Python.
+
+### Análisis con Sonar
+
+Para ejecutar el análisis local, primero instalá `sonar-scanner` y asegurate de tener configurada
+la autenticación fuera del repositorio, por ejemplo con variables de entorno o con la configuración
+local del scanner. No hardcodees tokens en archivos del proyecto.
+
+```bash
+sonar-scanner
+```
