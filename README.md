@@ -26,7 +26,6 @@ RABBITMQ_URL="amqp://..." \
 uvicorn rewards.interfaces.api.main:create_app --factory --reload
 ```
 
-> En desarrollo sin broker: `REWARD_EVENT_PUBLISHER="memory"`. Nunca guardes credenciales en el repo.
 
 ## Ejecutar worker (consumer)
 
