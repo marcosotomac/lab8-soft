@@ -10,3 +10,4 @@ coverage.xml
 *.egg-info/
 rewards.db
 rewards_smoke.db
+openspec/
